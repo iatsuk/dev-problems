@@ -7,6 +7,8 @@
     <version>LATEST</version>
     <packaging>jar</packaging>
     <name>JavaRush</name>
+    <description>Solutions for JavaRush course</description>
+    <inceptionYear>2014</inceptionYear>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
