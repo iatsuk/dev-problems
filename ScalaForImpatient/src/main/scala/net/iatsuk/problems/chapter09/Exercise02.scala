@@ -18,9 +18,11 @@ object Exercise02 extends App {
   println()
 
   val colLength = 4
-  val out = Source.fromFile(file).getLines.
+  val source = Source.fromFile(file)
+  val out = source.getLines.
     map(line => line.split("\t").map(word => if (word.length < colLength) word + " " * (colLength - word.length) else word)).
     map(_.mkString(""))
+  source.close()
 
 
   println("out:")
