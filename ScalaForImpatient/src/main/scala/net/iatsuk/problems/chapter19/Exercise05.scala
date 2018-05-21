@@ -10,31 +10,36 @@ object Exercise05 extends App {
     private val tag = "\\w*".r
     private val rawText: Regex = "[\\w*\\s*]*".r
 
-    def text: Parser[String] = (("\"" ~ rawText ~ "\"") | ("\'" ~ rawText ~ "\'")) ^^ (t => t._1._1 + t._1._2 + t._2)
+    def text: Parser[String] = (("\"" ~ rawText <~ "\"") | ("\'" ~ rawText <~ "\'")) ^^ (t => t._1 + t._2 + t._1)
 
-    def emptyNode: Parser[String] = "<" ~ tag ~ "/>" ^^ (t => t._1._1 + t._1._2 + t._2)
-
-    def node: Parser[String] = "<" ~ tag ~ "/>" ~ (opt(xml) ^^ { case Some(o) => o; case None => "" }) into { t =>
-      val parsedTag = t._1._1._2
-      val inner = t._2
-
-      s"<$parsedTag>$inner</$parsedTag>"
+    def emptyNode: Parser[String] = "<" ~> tag <~ "/>" ^^ {
+      case parsedTag if parsedTag == "ident" => s"<$parsedTag/>"
+      case _ => ""
     }
 
-    val xml: Parser[String] = text | emptyNode | node
+    def node: Parser[String] = "<" ~> tag <~ ">" into { parsedTag =>
+      (opt(xml) ^^ { case Some(o) => o; case None => "" }) <~ ("</" ~ parsedTag ~ ">") ^^ {
+        case entrails if parsedTag == "ident" => s"<$parsedTag>$entrails</$parsedTag>"
+        case entrails => entrails
+      }
+    }
+
+    val xml: Parser[String] = rep(emptyNode | node | text) ^^ {
+      _.foldLeft("")(_ + _)
+    }
 
   }
 
   val testXml =
     """
       |<root>
-      |  <ident> some text</ident>
-      |  <ident><![CDATA[<sender>John Smith</sender>]]></ident>
+      |  <ident>" some text"</ident>
+      |  <ident>'<![CDATA[<sender>John Smith</sender>]]>'</ident>
       |  <ident/>
       |</root>
     """.stripMargin
 
   val parser = new XmlParser
-  val result = parser.parseAll(parser.xml, """<root>'gtub'</root>""")
+  val result = parser.parseAll(parser.xml, """<root><ident>" some text"</ident><ident/><rot/></root>""")
   println(result.get)
 }
