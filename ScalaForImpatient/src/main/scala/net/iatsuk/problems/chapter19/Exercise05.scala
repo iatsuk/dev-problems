@@ -4,7 +4,6 @@ import scala.util.matching.Regex
 import scala.util.parsing.combinator.RegexParsers
 import scala.xml.{Attribute, NodeSeq, Null, Text}
 
-// TODO: not implemented yet
 object Exercise05 extends App {
 
   class XmlParser extends RegexParsers {
@@ -26,7 +25,7 @@ object Exercise05 extends App {
     }
 
     def node: Parser[NodeSeq] = (openBracket ~> tag ~ attribute <~ closeBracket) <~ text into { parsed =>
-      (rep(item) ^^ { _.reduceLeft(_ ++ _) }) <~ ("</" ~ parsed._1 ~ ">") ^^ {
+      (rep(item) ^^ { _.foldLeft(NodeSeq.Empty)(_ ++ _) }) <~ ("</" ~ parsed._1 ~ ">") ^^ {
         case entrails if parsed._1 == "ident" => parsed._2.foldLeft(<ident>{entrails}</ident>)(_ % _)
         case _ => NodeSeq.Empty
       }
