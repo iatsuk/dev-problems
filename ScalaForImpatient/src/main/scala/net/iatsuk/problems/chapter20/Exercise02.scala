@@ -20,18 +20,19 @@ object Exercise02 extends App {
   }
 
   Actor.actor {
-    val parts = 4
-    val actors = new Array[Actor](parts)
+    val tiles = 4
+    val actors = new Array[Actor](tiles)
 
     val image = ImageIO.read(new URL("https://upload.wikimedia.org/wikipedia/commons/a/aa/Vincent_van_Gogh_-_Self-portrait_with_grey_felt_hat_-_Google_Art_Project.jpg"))
     printf("image width: %d%nimage height: %d%n", image.getWidth, image.getHeight)
 
 
     val start = System.currentTimeMillis()
-    val step = image.getHeight / parts
-    for (y <- 0 until parts) {
-      actors(y) = new InvertActor().start()
-      actors(y) ! image.getSubimage(0, y * step, image.getWidth, step)
+    val offset = image.getHeight / tiles
+    for (tile <- 0 until tiles) {
+      val img = image.getSubimage(0, tile * offset, image.getWidth, offset)
+      actors(tile) = new InvertActor().start()
+      actors(tile) ! image.getSubimage(0, tile * offset, image.getWidth, offset)
     }
 
     while (actors.map(_.getState == Actor.State.Terminated).reduce(_ | _)) {}
