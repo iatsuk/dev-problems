@@ -19,7 +19,7 @@
         <maven.compiler.source>1.6</maven.compiler.source>
         <maven.compiler.target>1.6</maven.compiler.target>
         <encoding>UTF-8</encoding>
-        <scala.version>2.11.12</scala.version>
+        <scala.version>2.11.11</scala.version>
         <scala.compat.version>2.11</scala.compat.version>
     </properties>
 
@@ -48,12 +48,19 @@
             <version>${scala.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.scala-lang.plugins</groupId>
+            <artifactId>scala-continuations-library_${scala.compat.version}</artifactId>
+            <version>1.0.3</version>
+        </dependency>
+
         <!-- Test -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
         </dependency>
+
         <dependency>
             <groupId>org.scalatest</groupId>
             <artifactId>scalatest_${scala.compat.version}</artifactId>
@@ -71,7 +78,18 @@
                 <groupId>net.alchim31.maven</groupId>
                 <artifactId>scala-maven-plugin</artifactId>
                 <version>3.2.0</version>
+                <configuration>
+                    <recompileMode>incremental</recompileMode>
+                </configuration>
                 <executions>
+                    <execution>
+                        <id>scala-compile-first</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
                     <execution>
                         <goals>
                             <goal>compile</goal>
@@ -81,7 +99,15 @@
                             <args>
                                 <arg>-dependencyfile</arg>
                                 <arg>${project.build.directory}/.scala_dependencies</arg>
+                                <arg>-P:continuations:enable</arg>
                             </args>
+                            <compilerPlugins>
+                                <compilerPlugin>
+                                    <groupId>org.scala-lang.plugins</groupId>
+                                    <artifactId>scala-continuations-plugin_${scala.version}</artifactId>
+                                    <version>1.0.3</version>
+                                </compilerPlugin>
+                            </compilerPlugins>
                         </configuration>
                     </execution>
                 </executions>
