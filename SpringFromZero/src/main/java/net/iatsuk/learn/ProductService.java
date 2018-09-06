@@ -1,9 +1,11 @@
 package net.iatsuk.learn;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.stereotype.Component;
 
 @Component
 public class ProductService {
+    @Autowired
     private PromotionsService promotionsService;
 
     public PromotionsService getPromotionsService() {
