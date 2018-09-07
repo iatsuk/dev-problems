@@ -10,6 +10,7 @@ public class Main {
     public static void main(String[] args) throws ClassNotFoundException, IOException, URISyntaxException,
             InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         BeanFactory beanFactory = new BeanFactory();
+        beanFactory.addPostProcessor(new TracePostProcessor());
         beanFactory.instantiate("net.iatsuk.learn");
 
         ProductService productService = (ProductService) beanFactory.getBean("productService");
