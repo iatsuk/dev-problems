@@ -83,4 +83,13 @@ public class BeanFactory {
         }
     }
 
+    public void injectBeanFactories() {
+        for (String name : singletons.keySet()) {
+            Object bean = singletons.get(name);
+            if (bean instanceof BeanFactoryAware) {
+                ((BeanFactoryAware) bean).setBeanFactory(this);
+            }
+        }
+    }
+
 }
