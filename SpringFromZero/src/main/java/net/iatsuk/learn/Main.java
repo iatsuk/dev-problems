@@ -23,5 +23,7 @@ public class Main {
         System.out.println(promotionsService.getBeanName());
         beanFactory.injectBeanFactories();
         System.out.println(beanFactory == productService.getBeanFactory());
+
+        beanFactory.initializeBeans();
     }
 }

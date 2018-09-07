@@ -92,4 +92,13 @@ public class BeanFactory {
         }
     }
 
+    public void initializeBeans() {
+        for (String name : singletons.keySet()) {
+            Object bean = singletons.get(name);
+            if (bean instanceof InitializingBean) {
+                ((InitializingBean) bean).afterPropertiesSet();
+            }
+        }
+    }
+
 }
