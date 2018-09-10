@@ -11,6 +11,7 @@ public class Main {
             InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         BeanFactory beanFactory = new BeanFactory();
         beanFactory.addPostProcessor(new TracePostProcessor());
+        beanFactory.addPostProcessor(new PostConstructPostProcessor());
         beanFactory.instantiate("net.iatsuk.learn");
 
         ProductService productService = (ProductService) beanFactory.getBean("productService");
