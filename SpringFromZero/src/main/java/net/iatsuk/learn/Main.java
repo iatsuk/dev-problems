@@ -9,23 +9,24 @@ import java.net.URISyntaxException;
 public class Main {
     public static void main(String[] args) throws ClassNotFoundException, IOException, URISyntaxException,
             InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
-        BeanFactory beanFactory = new BeanFactory();
-        beanFactory.addPostProcessor(new TracePostProcessor());
-        beanFactory.addPostProcessor(new PostConstructPostProcessor());
-        beanFactory.instantiate("net.iatsuk.learn");
+        try (BeanFactory beanFactory = new BeanFactory()) {
+            beanFactory.addPostProcessor(new TracePostProcessor());
+            beanFactory.addPostProcessor(new PostConstructPostProcessor());
+            beanFactory.instantiate("net.iatsuk.learn");
 
-        ProductService productService = (ProductService) beanFactory.getBean("productService");
-        System.out.println(productService);
+            ProductService productService = (ProductService) beanFactory.getBean("productService");
+            System.out.println(productService);
 
-        beanFactory.populateProperties();
-        PromotionsService promotionsService = productService.getPromotionsService();
-        System.out.println(promotionsService);
+            beanFactory.populateProperties();
+            PromotionsService promotionsService = productService.getPromotionsService();
+            System.out.println(promotionsService);
 
-        beanFactory.injectBeanNames();
-        System.out.println(promotionsService.getBeanName());
-        beanFactory.injectBeanFactories();
-        System.out.println(beanFactory == productService.getBeanFactory());
+            beanFactory.injectBeanNames();
+            System.out.println(promotionsService.getBeanName());
+            beanFactory.injectBeanFactories();
+            System.out.println(beanFactory == productService.getBeanFactory());
 
-        beanFactory.initializeBeans();
+            beanFactory.initializeBeans();
+        }
     }
 }

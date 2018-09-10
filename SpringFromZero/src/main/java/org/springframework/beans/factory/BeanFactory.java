@@ -5,6 +5,7 @@ import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.beans.factory.stereotype.Component;
 import org.springframework.beans.factory.stereotype.Service;
 
+import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
@@ -15,7 +16,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.*;
 
-public class BeanFactory {
+public class BeanFactory implements AutoCloseable {
     private Map<String, Object> singletons = new HashMap<>();
     private List<BeanPostProcessor> postProcessors = new ArrayList<>();
 
@@ -111,4 +112,21 @@ public class BeanFactory {
         postProcessors.add(postProcessor);
     }
 
+    @Override
+    public void close() {
+        for (String name : singletons.keySet()) {
+            Object bean = singletons.get(name);
+            for (Method method : bean.getClass().getDeclaredMethods()) {
+                if (method.isAnnotationPresent(PreDestroy.class)) {
+                    try {
+                        method.setAccessible(true);
+                        method.invoke(bean);
+                        method.setAccessible(false);
+                    } catch (IllegalAccessException | InvocationTargetException e) {
+                        System.out.printf("Error '%s' due calling @PreDestroy annotated method '%s' for '%s'\n", e.getMessage(), method.getName(), bean);
+                    }
+                }
+            }
+        }
+    }
 }

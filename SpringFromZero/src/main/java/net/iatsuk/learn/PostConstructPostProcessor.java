@@ -12,11 +12,13 @@ public class PostConstructPostProcessor implements BeanPostProcessor {
         try {
             for (Method method : bean.getClass().getDeclaredMethods()) {
                 if (method.isAnnotationPresent(PostConstruct.class)) {
+                    method.setAccessible(true);
                     method.invoke(bean);
+                    method.setAccessible(false);
                 }
             }
         } catch (InvocationTargetException | IllegalAccessException e) {
-            System.out.println(String.format("Error '%s' for bean '%s' in '%s'", e.getMessage(), bean, this.getClass().getName()));
+            System.out.println(String.format("Error '%s' for bean '%s' in '%s'\n", e.getMessage(), bean, this.getClass().getName()));
         }
         return bean;
     }
