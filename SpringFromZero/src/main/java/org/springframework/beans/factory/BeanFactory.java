@@ -127,6 +127,9 @@ public class BeanFactory implements AutoCloseable {
                     }
                 }
             }
+            if (bean instanceof DisposableBean) {
+                ((DisposableBean) bean).destroy();
+            }
         }
     }
 }
