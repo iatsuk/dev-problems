@@ -2,12 +2,14 @@ package net.iatsuk.learn;
 
 import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.beans.factory.stereotype.Component;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextClosedEvent;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
 @Component
-public class PromotionsService implements BeanNameAware {
+public class PromotionsService implements BeanNameAware, ApplicationListener<ContextClosedEvent> {
     private String beanName;
 
     @Override
@@ -27,5 +29,10 @@ public class PromotionsService implements BeanNameAware {
     @PreDestroy
     public void destroy() {
         System.out.println("Promotion Service was destroyed");
+    }
+
+    @Override
+    public void onApplicationEvent(ContextClosedEvent event) {
+        System.out.println(">> ContextClosedEvent");
     }
 }

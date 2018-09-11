@@ -24,6 +24,10 @@ public class BeanFactory implements AutoCloseable {
         return singletons.get(beanName);
     }
 
+    public Map<String, Object> getSingletons() {
+        return singletons;
+    }
+
     public void instantiate(String basePackage) throws IOException, URISyntaxException, ClassNotFoundException,
             IllegalAccessException, InstantiationException {
         ClassLoader classLoader = ClassLoader.getSystemClassLoader();

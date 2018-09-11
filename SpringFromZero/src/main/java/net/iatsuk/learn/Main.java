@@ -1,14 +1,13 @@
 package net.iatsuk.learn;
 
 import org.springframework.beans.factory.BeanFactory;
+import org.springframework.context.ApplicationContext;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 
 public class Main {
-    public static void main(String[] args) throws ClassNotFoundException, IOException, URISyntaxException,
-            InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    public static void main(String[] args) throws ReflectiveOperationException, IOException, URISyntaxException {
         try (BeanFactory beanFactory = new BeanFactory()) {
             beanFactory.addPostProcessor(new TracePostProcessor());
             beanFactory.addPostProcessor(new PostConstructPostProcessor());
@@ -28,5 +27,8 @@ public class Main {
 
             beanFactory.initializeBeans();
         }
+
+        ApplicationContext context = new ApplicationContext("net.iatsuk.learn");
+        context.close();
     }
 }
