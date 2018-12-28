@@ -18,3 +18,10 @@ lazy val basic = (project in file("basic"))
     testFrameworks += new TestFramework("utest.runner.Framework"),
   )
 
+lazy val workbench = (project in file("workbench"))
+  .enablePlugins(ScalaJSPlugin, WorkbenchPlugin)
+  .settings(
+      name := "Workbench Example App by Hands-on Scala.js",
+      libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.6",
+      libraryDependencies += "com.lihaoyi" %%% "scalatags" % "0.6.7",
+  )
