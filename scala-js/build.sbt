@@ -25,3 +25,11 @@ lazy val workbench = (project in file("workbench"))
       libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.6",
       libraryDependencies += "com.lihaoyi" %%% "scalatags" % "0.6.7",
   )
+
+lazy val sketchpad = (project in file("sketchpad"))
+  .enablePlugins(ScalaJSPlugin, WorkbenchPlugin)
+  .settings(
+    name := "Sketchpad",
+    libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.6",
+    libraryDependencies += "com.lihaoyi" %%% "scalatags" % "0.6.7",
+  )

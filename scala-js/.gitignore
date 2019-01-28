@@ -19,5 +19,6 @@ project/plugins/project/
 out
 gen
 
-
-
+### Node
+package-lock.json
+node_modules/
