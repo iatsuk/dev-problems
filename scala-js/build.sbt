@@ -49,3 +49,11 @@ lazy val flappybox = (project in file("flappybox"))
     libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.6",
     libraryDependencies += "com.lihaoyi" %%% "scalatags" % "0.6.7",
   )
+
+lazy val html = (project in file("html"))
+  .enablePlugins(ScalaJSPlugin, WorkbenchPlugin)
+  .settings(
+    name := "html",
+    libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.6",
+    libraryDependencies += "com.lihaoyi" %%% "scalatags" % "0.6.7",
+  )
