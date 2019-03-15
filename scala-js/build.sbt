@@ -73,3 +73,11 @@ lazy val webservices = (project in file("webservices"))
     libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.6",
     libraryDependencies += "com.lihaoyi" %%% "scalatags" % "0.6.7",
   )
+
+lazy val weathersrch = (project in file("weathersrch"))
+  .enablePlugins(ScalaJSPlugin, WorkbenchPlugin)
+  .settings(
+    name := "Weather Search",
+    libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.6",
+    libraryDependencies += "com.lihaoyi" %%% "scalatags" % "0.6.7",
+  )
