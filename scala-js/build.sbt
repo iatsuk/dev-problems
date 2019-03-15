@@ -65,3 +65,11 @@ lazy val scalatags = (project in file("scalatags"))
     libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.6",
     libraryDependencies += "com.lihaoyi" %%% "scalatags" % "0.6.7",
   )
+
+lazy val webservices = (project in file("webservices"))
+  .enablePlugins(ScalaJSPlugin, WorkbenchPlugin)
+  .settings(
+    name := "webservices",
+    libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.6",
+    libraryDependencies += "com.lihaoyi" %%% "scalatags" % "0.6.7",
+  )
