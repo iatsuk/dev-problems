@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="userDao" class="ru.otus.spring.dao.persons.UserInMemory">
+    </bean>
+
+    <bean id="problemDao" class="ru.otus.spring.dao.problems.ProblemsSourceCsv">
+        <constructor-arg name="path" value="#{T(org.springframework.util.ResourceUtils).getFile('classpath:problems.csv').getPath()}" />
+    </bean>
+
+    <bean id="quizService" class="ru.otus.spring.service.QuizServiceSimple">
+        <constructor-arg name="users" ref="userDao" />
+        <constructor-arg name="problems" ref="problemDao" />
+    </bean>
+</beans>
