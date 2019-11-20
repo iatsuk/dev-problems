@@ -10,7 +10,7 @@ class PersonInMemoryTest {
 
     @Test
     void getTest() {
-        PersonDao dao = new PersonInMemory();
+        UserDao dao = new UserInMemory();
         Person person = dao.getOrCreate("Andrei");
         assertNotNull(person);
         assertEquals("Andrei", person.getName());
@@ -19,7 +19,7 @@ class PersonInMemoryTest {
 
     @Test
     void getSameTest() {
-        PersonDao dao = new PersonInMemory();
+        UserDao dao = new UserInMemory();
         dao.getOrCreate("Andrei").setRating(5);
 
         Person person = dao.getOrCreate("Andrei");

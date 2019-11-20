@@ -5,7 +5,7 @@ import ru.otus.spring.domain.Person;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class PersonInMemory implements PersonDao {
+public class UserInMemory implements UserDao {
 
     private Map<String, Person> cache = new ConcurrentHashMap<>();
 
