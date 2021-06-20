@@ -1,0 +1,7 @@
+# VSCode
+.bloop/
+.metals/
+.vscode/
+
+# Mill
+out/
